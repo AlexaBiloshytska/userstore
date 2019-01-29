@@ -5,11 +5,12 @@ import java.util.*;
 
 public class User {
 
-    String firstName;
-    String lastName;
-    LocalDate birth;
-    Long age;
-    Long salary;
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private LocalDate birth;
+    private Long age;
+    private Long salary;
 
     public String getFirstName() {
         return firstName;
@@ -37,6 +38,14 @@ public class User {
 
     public Long getAge() {
         return age;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setAge(Long age) {

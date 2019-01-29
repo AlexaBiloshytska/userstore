@@ -20,7 +20,6 @@ public class DataSource {
         dataSource.setMaxActive(10);
         dataSource.setMaxIdle(20);
         dataSource.setMaxOpenPreparedStatements(180);
-
     }
 
 

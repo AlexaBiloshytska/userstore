@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add user</title>
+</head>
+<body>
+
+<nav class="navbar navbar navbar-invers">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Chance Kennel</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="users.html">Home</a></li>
+                <li><a href="add.html">Add user</a></li>
+                <li><a href="gallery.html">Our guests</a></li>
+                <li><a href="form.html">Contact us</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="form-group" >
+    <form name="add" method="post" action="/users">
+        <input type="text" name="actiontype" value="create" hidden>
+        <label for="first_name">User's name</label>
+        <input name="firstName" id="first_name" type="text" class="form-control"required>
+        <label for="first_name">User's name</label>
+        <input name="lastName"  type="text" class="form-control" placeholder="" required>
+        <label for="first_name">User's age</label>
+        <input name="age" value="Age" type="number" class="form-control" required>
+        <label for="first_name">User's dateOfBirth</label>
+        <input name="birth" value="Birth" type="date" class="form-control" required>
+        <label for="first_name">User's salary</label>
+        <input name="salary" value="Salary" type="number" class="form-control" required>
+        <input type="Submit" name=submit value="Submit" class="btn btn-primary btn-sm">
+    </form>
+</div>
+
+</div>
+</body>
+</html>

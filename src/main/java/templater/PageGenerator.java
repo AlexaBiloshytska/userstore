@@ -11,12 +11,12 @@ import java.util.Map;
 
 public class PageGenerator {
 
-        private static final String HTML_DIR = "";
+        private static final String HTML_DIR = "/templates";
 
         private static PageGenerator pageGenerator;
         private final Configuration cfg;
 
-        public static PageGenerator instance() {
+        public static PageGenerator getInstance() {
             if (pageGenerator == null)
                 pageGenerator = new PageGenerator();
             return pageGenerator;

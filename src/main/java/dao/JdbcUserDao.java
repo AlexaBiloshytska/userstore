@@ -1,5 +1,6 @@
 package dao;
 
+import dao.mapper.userMapper;
 import entity.User;
 
 import java.sql.*;
@@ -7,24 +8,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-public class JdbcUserDao {
-    // JDBC driver name and database URL
-    public static final String DB_URL = "jdbc:h2:mem:test;INIT=runscript from 'classpath:init.sql'";
-
+public class JdbcUserDao implements UserDao {
     //  Database credentials
     private static final String USER = "sa";
     private static final String PASS = "";
     private static final String sql = "SELECT id, first_name, last_name, age, dateOfBirth,salary FROM USERS ";
     private  static final String queryAdd= "insert into users(first_name, last_name, age, dateOfBirth, salary) values(?,?,?,?,?)";
     private static final String delete = "delete from users where id =?";
+    private final static String UPDATE_QUERY = "UPDATE users SET salary = ?, firstName = ?, lastName = ?, dateOfBirth = ? WHERE id = ?";
 
-    public List<User> getUsers() {
+
+    private Connection connection;
+
+    public JdbcUserDao(Connection connection){
+        this.connection = connection;
+    }
+
+
+    public List<User> getAll() {
         List<User> users = new ArrayList<>();
 
-        try (Connection connection = DataSource.getInstance().getConnection();
-             Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql);){
 
             while (resultSet.next()) {
@@ -56,10 +60,8 @@ public class JdbcUserDao {
         return user;
     }
 
-    public void addNewUser(User user){
-
-        try (Connection connection = DataSource.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(queryAdd);) {
+    public void add(User user){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(queryAdd);) {
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
@@ -74,21 +76,40 @@ public class JdbcUserDao {
         } catch (Exception e) {
             System.out.println("Failed to insert new user"+ user);
             e.printStackTrace();
-
         }
     }
-    public void deleteUser(int id) throws SQLException {
-        try(Connection connection = DataSource.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(delete);){
+    public void delete(int id)  {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(delete);){
 
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             connection.commit();
             System.out.println("user deletion is successful");
+        } catch (SQLException e) {
+            System.out.println("[error] Unable to delete user");
+            throw new RuntimeException(e);
         }
-
    }
 
 
+   public void update(User user) {
+        try (Connection connection = DataSource.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
+
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setLong(3, user.getAge());
+            preparedStatement.setDate(4, Date.valueOf(user.getBirth()));
+            preparedStatement.setLong(5, user.getSalary());
+            preparedStatement.executeUpdate();
+            connection.commit();
+
+            System.out.println("User with id= {} was updated successful."+ user.getId() );
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't update user with id = " + user.getId(), e);
+        }
+    }
 }
+
 

@@ -23,8 +23,8 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="info.html">Our address</a></li>
+                <li class="active"><a href="users.html">Home</a></li>
+                <li><a href="add.html">Add user</a></li>
                 <li><a href="gallery.html">Our guests</a></li>
                 <li><a href="form.html">Contact us</a></li>
             </ul>
@@ -42,6 +42,10 @@
                 <th>Age</th>
                 <th>DateOfBirth</th>
                 <th>Salary</th>
+            <td>
+                <a href="add?id=$(user.id)"> Add</a>
+                <a href="delete?id=$(user.id)">Delete </a>
+            </td>
             </tr>
             <#list users as user>
                 <tr>
@@ -56,22 +60,10 @@
     </div>
 
 
-    <div class="row mb5-5" >
-        <form method="post" action="/users">
-            <input type="text" name="actiontype" value="create" hidden>
-            <input name="firstName"  type="text" class="form-control" placeholder="User's name" required>
-            <input name="lastName"  type="text" class="form-control" placeholder="User's Last Name" required>
-            <input name="age" value="Age" type="number" class="form-control" placeholder="User's age" required>
-            <input name="birth" value="Birth" type="date" class="form-control" placeholder="User's dateOfBirth" required>
-            <input name="salary" value="Salary" type="number" class="form-control" placeholder="User's salary" required>
-            <input type="Submit" name=submit value="Submit" class="btn btn-primary btn-sm">
-        </form>
-    </div>
 
-</div>
 
 <div class="row mb5-5">
-<form method="post" action="/users">
+<form name="delete" method="post" action="/users">
     <input type="text" name="actiontype" value="delete" hidden>
     <input name = "id" type="number" class="form-control" placeholder="User's id " required>
     <input type="Submit" name=delete value="Delete" class="btn btn-primary btn-sm">
