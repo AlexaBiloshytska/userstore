@@ -14,32 +14,30 @@ public class UpdateUserServlet extends HttpServlet {
     private UserService userService;
     private String requestedPage = "update_user.html";
 
+    public UpdateUserServlet(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-
-        String action = request.getParameter("actiontype");
-        if (action.equals("create")) {
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
             Long age = Long.parseLong(request.getParameter("age"));
             Long salary = Long.parseLong(request.getParameter("salary"));
             LocalDate birth = LocalDate.parse(request.getParameter("birth"));
             //create User
             User user = new User();
+            user.setId(id);
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setAge(age);
             user.setSalary(salary);
             user.setBirth(birth);
 
-            userService.getAll();
-
-        } else if (action.equals("update")) {
-            User user = new User();
-            Integer id = Integer.parseInt(request.getParameter("id"));
             userService.update(user);
-        }
+
+            response.sendRedirect("/users");
     }
 }
-

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +19,34 @@ import java.util.Map;
 
 public class AddUserServlet extends HttpServlet {
     private UserService userService;
-    private String requestedPage ="add.html";
+    private String requestedPage ="index.html";
+
+
+    public AddUserServlet(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
-    protected  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
+    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        PageGenerator instance= PageGenerator.getInstance();
-        String page = instance.getPage(requestedPage, pageVariables);
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+        Long age = Long.parseLong(request.getParameter("age"));
+        Long salary = Long.parseLong(request.getParameter("salary"));
+        LocalDate birth = LocalDate.parse(request.getParameter("birth"));
 
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write(page);
+        //create User
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setSalary(salary);
+        user.setBirth(birth);
+
+        userService.add(user);
+
+        userService.getAll();
+        response.sendRedirect("/users");
     }
 
     public void setUserService(UserService userService) {

@@ -15,7 +15,7 @@ public class JdbcUserDao implements UserDao {
     private static final String sql = "SELECT id, first_name, last_name, age, dateOfBirth,salary FROM USERS ";
     private  static final String queryAdd= "insert into users(first_name, last_name, age, dateOfBirth, salary) values(?,?,?,?,?)";
     private static final String delete = "delete from users where id =?";
-    private final static String UPDATE_QUERY = "UPDATE users SET salary = ?, firstName = ?, lastName = ?, dateOfBirth = ? WHERE id = ?";
+    private final static String UPDATE_QUERY = "UPDATE users SET  first_name = ?, last_name = ?, age =?, dateOfBirth = ?, salary=? WHERE id = ?";
 
 
     private Connection connection;
@@ -93,7 +93,7 @@ public class JdbcUserDao implements UserDao {
 
 
    public void update(User user) {
-        try (Connection connection = DataSource.getInstance().getConnection();
+        try (
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY)) {
 
             preparedStatement.setString(1, user.getFirstName());
@@ -101,6 +101,8 @@ public class JdbcUserDao implements UserDao {
             preparedStatement.setLong(3, user.getAge());
             preparedStatement.setDate(4, Date.valueOf(user.getBirth()));
             preparedStatement.setLong(5, user.getSalary());
+            preparedStatement.setLong(6, user.getId());
+
             preparedStatement.executeUpdate();
             connection.commit();
 
