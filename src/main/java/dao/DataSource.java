@@ -16,6 +16,7 @@ public class DataSource {
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         dataSource.setUrl("jdbc:h2:mem:test;INIT=runscript from 'classpath:init.sql'");
+        dataSource.setDriverClassName("org.h2.Driver" );
         dataSource.setMinIdle(5);
         dataSource.setMaxActive(10);
         dataSource.setMaxIdle(20);
@@ -35,8 +36,12 @@ public class DataSource {
         return datasource;
     }
 
-    public Connection getConnection() throws SQLException {
-        return this.dataSource.getConnection();
+    public Connection getConnection() {
+        try {
+            return this.dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] Unable to get datasource connection");
+        }
     }
 
 }

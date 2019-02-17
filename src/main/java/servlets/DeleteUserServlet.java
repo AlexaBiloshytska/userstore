@@ -3,6 +3,7 @@ package servlets;
 import entity.User;
 import service.UserService;
 import templater.PageGenerator;
+import templater.ServiceLocator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,11 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DeleteUserServlet extends HttpServlet{
-    private UserService userService;
-
-    public DeleteUserServlet(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService = ServiceLocator.get(UserService.class);
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {

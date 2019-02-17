@@ -52,7 +52,6 @@ public class User {
         this.age = age;
     }
 
-
     public Long getSalary() {
         return salary;
     }
